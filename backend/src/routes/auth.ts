@@ -1,19 +1,16 @@
 import express, { Request, Response } from "express";
+import { validationResult, check } from "express-validator";
 import User from "../models/user";
 import jwt from "jsonwebtoken";
-import { validationResult, check } from "express-validator";
+import bcrypt from "bcryptjs";
 
 const router = express.Router();
 
-// /api/users/register
-
 router.post(
-  "/register",
+  "/login",
   [
-    check("firstName", "First Name is required").isString(),
-    check("lastName", "Last Name is required").isString(),
-    check("email", "Email is required").isEmail(),
-    check("password", "Passwoard with 6 or more characters required").isLength({
+    check("email", "Email is requires").isEmail(),
+    check("password", "Password with 6 or more characters required").isLength({
       min: 6,
     }),
   ],
@@ -22,16 +19,20 @@ router.post(
     if (!errors.isEmpty()) {
       return res.status(400).json({ message: errors.array() });
     }
+
+    const { email, password } = req.body;
+
     try {
-      let user = await User.findOne({
-        email: req.body.email,
-      });
-      if (user) {
-        return res.status(400).json({ message: "User already exits" });
+      const user = await User.findOne({ email });
+      if (!user) {
+        return res.status(400).json({ message: "Invalid Crredentials" });
       }
-      user = new User(req.body);
-      await user.save();
-      console.log("user", user);
+
+      const isMatch = await bcrypt.compare(password, user.password);
+
+      if (!isMatch) {
+        return res.status(400).json({ message: "Invalid Crredentials" });
+      }
 
       const token = jwt.sign(
         { userId: user.id },
@@ -46,11 +47,11 @@ router.post(
         secure: process.env.NODE_ENV === "Production",
         maxAge: 86400000,
       });
-
-      return res.sendStatus(200);
+      console.log(user);
+      res.status(200).json({ userId: user._id });
     } catch (error) {
       console.log(error);
-      res.status(500).send({ message: "Something went wrong" });
+      res.status(500).json({ message: "Something went wrong" });
     }
   },
 );
