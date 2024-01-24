@@ -1,6 +1,6 @@
-import React from "react";
 import Layout from "./layouts/Layout";
-import { Routes, Route } from "react-router-dom";
+import Register from "./pages/Register";
+import { Routes, Route, Navigate } from "react-router-dom";
 
 const App = () => {
   return (
@@ -21,6 +21,15 @@ const App = () => {
           </Layout>
         }
       />
+      <Route
+        path="/register"
+        element={
+          <Layout>
+            <Register />
+          </Layout>
+        }
+      />
+      <Route path="*" element={<Navigate to="/" />} />
     </Routes>
   );
 };
