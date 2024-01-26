@@ -47,7 +47,7 @@ router.post(
         secure: process.env.NODE_ENV === "Production",
         maxAge: 86400000,
       });
-      console.log(user);
+      console.log("Test:",user);
       res.status(200).json({ userId: user._id });
     } catch (error) {
       console.log(error);

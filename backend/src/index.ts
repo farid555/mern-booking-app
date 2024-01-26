@@ -4,8 +4,12 @@ import "dotenv/config";
 import mongoose from "mongoose";
 import userRoutes from "./routes/users";
 import authRoutes from "./routes/auth";
+import connectionToDB from "./config/connectDB";
 
-mongoose.connect(process.env.MONGODB_CONNECTION_STRING as string);
+(async () => {
+  await connectionToDB();
+  // rest of the code
+})();
 
 const app = express();
 app.use(express.json());
