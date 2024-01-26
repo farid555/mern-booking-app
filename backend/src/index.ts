@@ -8,7 +8,6 @@ import connectionToDB from "./config/connectDB";
 
 (async () => {
   await connectionToDB();
-  // rest of the code
 })();
 
 const app = express();
