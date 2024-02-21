@@ -5,7 +5,7 @@ import * as apiClient from "../api-client";
 
 type ToastMessage = {
   message: string;
-  type: "SUCESS" | "ERROR";
+  type: "SUCCESS" | "ERROR";
 };
 
 type AppContext = {
@@ -25,6 +25,7 @@ export const AppContextProvider = ({
   const { isError } = useQuery("validateToken", apiClient.validateToken, {
     retry: false,
   });
+  console.log("isError:", isError);
 
   return (
     <AppContext.Provider
@@ -32,7 +33,7 @@ export const AppContextProvider = ({
         showToast: (toastMessage) => {
           setToast(toastMessage);
         },
-        isLoggedIn: !isError
+        isLoggedIn: !isError,
       }}
     >
       {toast && (
@@ -46,9 +47,6 @@ export const AppContextProvider = ({
     </AppContext.Provider>
   );
 };
-
-
-
 
 export const useAppContext = () => {
   const context = useContext(AppContext);

@@ -4,7 +4,8 @@ import * as apiClient from "../api-client";
 import { useAppContext } from "../contexts/AppContext";
 import { useNavigate } from "react-router-dom";
 
-type RegisterFormData = {
+
+export type RegisterFormData = {
   firstName: string;
   lastName: string;
   email: string;
@@ -26,7 +27,7 @@ const Register = () => {
 
   const mutation = useMutation(apiClient.register, {
     onSuccess: () => {
-      showToast({ message: "registration succesful!", type: "SUCCESS" });
+      showToast({ message: "Registration Success!", type: "SUCCESS" });
       navigate("/");
     },
     onError: (error: Error) => {

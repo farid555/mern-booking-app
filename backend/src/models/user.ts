@@ -16,6 +16,7 @@ const userSchema = new mongoose.Schema({
   lastName: { type: String, required: true },
 });
 
+//middleware for mongoodb
 userSchema.pre("save", async function (next) {
   if (this.isModified("password")) {
     this.password = await bcrypt.hash(this.password, 8);
