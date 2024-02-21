@@ -17,8 +17,8 @@ const SignOutButton = () => {
   });
 
   const handleClick = () => {
-    const testing = mutation.mutate();
-    console.log(testing);
+    mutation.mutate();
+  
   };
 
   return (
