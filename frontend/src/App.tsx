@@ -1,9 +1,13 @@
 import Layout from "./layouts/Layout";
 import Register from "./pages/Register";
 import SignIn from "./pages/SignIn";
+import AddHotel from "./pages/AddHotel";
 import { Routes, Route, Navigate } from "react-router-dom";
+import { useAppContext } from "./contexts/AppContext";
 
 const App = () => {
+  const { isLoggedIn } = useAppContext();
+
   return (
     <Routes>
       <Route
@@ -30,6 +34,19 @@ const App = () => {
           </Layout>
         }
       />
+
+      {isLoggedIn && (
+        <>
+          <Route
+            path="/add-hotel"
+            element={
+              <Layout>
+                <AddHotel />
+              </Layout>
+            }
+          />
+        </>
+      )}
       <Route
         path="/sign-in"
         element={

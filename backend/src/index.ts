@@ -6,6 +6,15 @@ import userRoutes from "./routes/users";
 import authRoutes from "./routes/auth";
 import connectionToDB from "./config/connectDB";
 import cookieParser from "cookie-parser";
+import path from "path";
+import { v2 as cloudinary } from "cloudinary";
+import myHotelsRoutes from "./routes/my-hotels";
+
+cloudinary.config({
+  cloud_name: process.env.CLOUDIDNARY_CLOUD_NAME,
+  api_key: process.env.CLOUDIDNARY_API_KEY,
+  api_secret: process.env.CLOUDIDNARY_API_SECRET,
+});
 
 (async () => {
   await connectionToDB();
@@ -22,8 +31,15 @@ app.use(
   }),
 );
 
+app.use(express.static(path.join(__dirname, "../../frontend/dist")));
+
 app.use("/api/auth", authRoutes);
 app.use("/api/users", userRoutes);
+app.use("/api/my-hotels", myHotelsRoutes);
+
+app.get("*", (req: Request, res: Response) => {
+  res.sendFile(path.join(__dirname, "../../frontend/dist/index.html"));
+});
 
 app.listen(7001, () => {
   console.log("Server running on localhost:7001");

@@ -1,5 +1,5 @@
-import React from "react";
 import ReactDOM from "react-dom/client";
+import React from "react";
 import { BrowserRouter } from "react-router-dom";
 import App from "./App.tsx";
 import "./index.css";
@@ -7,7 +7,7 @@ import { QueryClient, QueryClientProvider } from "react-query";
 import { AppContextProvider } from "./contexts/AppContext";
 
 const queryClient = new QueryClient({
-  defaultOption: {
+  defaultOptions: {
     queries: {
       retry: 0,
     },
