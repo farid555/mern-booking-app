@@ -2,6 +2,7 @@ import Layout from "./layouts/Layout";
 import Register from "./pages/Register";
 import SignIn from "./pages/SignIn";
 import AddHotel from "./pages/AddHotel";
+import MyHotels from "./pages/MyHotels";
 import { Routes, Route, Navigate } from "react-router-dom";
 import { useAppContext } from "./contexts/AppContext";
 
@@ -55,6 +56,14 @@ const App = () => {
           </Layout>
         }
       />
+       <Route
+            path="/my-hotels"
+            element={
+              <Layout>
+                <MyHotels />
+              </Layout>
+            }
+          />
       <Route path="*" element={<Navigate to="/" />} />
     </Routes>
   );
