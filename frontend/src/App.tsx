@@ -4,6 +4,7 @@ import SignIn from "./pages/SignIn";
 import AddHotel from "./pages/AddHotel";
 import MyHotels from "./pages/MyHotels";
 import EditHotel from "./pages/EditHotel";
+import Search from "./pages/Search";
 import { Routes, Route, Navigate } from "react-router-dom";
 import { useAppContext } from "./contexts/AppContext";
 
@@ -24,7 +25,7 @@ const App = () => {
         path="/search"
         element={
           <Layout>
-            <p>Search Page</p>
+            <Search />
           </Layout>
         }
       />
