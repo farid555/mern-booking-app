@@ -6,7 +6,19 @@ const router = express.Router();
 
 router.get("/search", async (req: Request, res: Response) => {
   try {
-    
+
+    const query = constructSearchQuery(req.query);
+    let sortOptings = {};
+    switch(req.query.sortOpting){
+      case "starrating":
+        sortOptings = {  starRating: -1  };
+        break;
+      case "pricePerNightAsc":
+        sortOptings = { pricePerNight: 1 };
+      case "pricePerNightDesc":
+        sortOptings = { pricePerNight: -1 };
+        break;
+    }
     const pageSize = 5;
     const pageNumber = parseInt(
       req.query.page ? req.query.page.toString() : "1",
@@ -15,9 +27,9 @@ router.get("/search", async (req: Request, res: Response) => {
     //page Number = 3
     const skip = (pageNumber - 1) * pageSize;
 
-    const hotels = await Hotel.find().skip(skip).limit(pageSize);
+    const hotels = await Hotel.find(query).sort(sortOptings).skip(skip).limit(pageSize);
 
-    const total = await Hotel.countDocuments();
+    const total = await Hotel.countDocuments(query);
 
     const response: HotelSearchResponse = {
       data: hotels,
@@ -34,4 +46,58 @@ router.get("/search", async (req: Request, res: Response) => {
   }
 });
 
+const constructSearchQuery =(queryParams: any)=>{
+  let constructedQuery: any = {};
+
+  if(queryParams.destination){
+    constructedQuery.$or = [
+      {city: new RegExp(queryParams.destination, "i")},
+      {country: new RegExp(queryParams.destination, "i")}
+    ];
+
+  }
+
+   if(queryParams.adultCount){
+    constructedQuery.adultCount = {
+      $gte: parseInt(queryParams.adultCount),
+    }
+   }
+   if(queryParams.childCount){
+    constructedQuery.childCount = {
+      $gte: parseInt(queryParams.childCount),
+    }
+   }
+   if(queryParams.facilities){
+    constructedQuery.facilities = {
+      $all: Array.isArray(queryParams.facilities) ? queryParams.facilities: [queryParams.facilities],
+     }
+   }
+   if(queryParams.types){
+    constructedQuery.type = {
+      $in: Array.isArray(queryParams.types) ? queryParams.types: [queryParams.types],
+     }
+   }
+
+   if(queryParams.types){
+    constructedQuery.type = {
+      $in: Array.isArray(queryParams.types) ? queryParams.types: [queryParams.types],
+     }
+   }
+
+   if(queryParams.stars){
+    const starRating =  parseInt(queryParams.stars.toString())
+    constructedQuery.starRating = {$eq: starRating};
+    }
+
+
+    if(queryParams.maxPrice){
+      constructedQuery.pricePerNight = {
+        $lte: parseInt(queryParams.maxPrice).toString(),
+         }; 
+      }
+   
+   return constructedQuery;
+}
+
 export default router;
+
