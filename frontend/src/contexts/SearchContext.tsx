@@ -29,7 +29,7 @@ export const SearchContextProvider = ({
   const [checkIn, setCheckIn] = useState<Date>(new Date());
   const [checkOut, setCheckOut] = useState<Date>(new Date());
   const [adultCount, setAdultCount] = useState<number>(1);
-  const [childCount, setchildCount] = useState<number>(0);
+  const [childCount, setChildCount] = useState<number>(0);
   const [hotelId, setHotelId] = useState<string>("");
 
   const saveSearchValues = (
@@ -44,7 +44,8 @@ export const SearchContextProvider = ({
     setCheckIn(checkIn);
     setCheckOut(checkOut);
     setAdultCount(adultCount);
-    setchildCount(childCount);
+    setChildCount(childCount);
+
     if (hotelId) {
       setHotelId(hotelId);
     }
