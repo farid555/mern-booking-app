@@ -6,6 +6,7 @@ import MyHotels from "./pages/MyHotels";
 import EditHotel from "./pages/EditHotel";
 import Search from "./pages/Search";
 import Detail from "./pages/Detail";
+import Booking from "./pages/Booking";
 import { Routes, Route, Navigate } from "react-router-dom";
 import { useAppContext } from "./contexts/AppContext";
 
@@ -50,10 +51,34 @@ const App = () => {
       {isLoggedIn && (
         <>
           <Route
+            path="/hotel/:hotelId/booking"
+            element={
+              <Layout>
+                <Booking />
+              </Layout>
+            }
+          />
+          <Route
             path="/add-hotel"
             element={
               <Layout>
                 <AddHotel />
+              </Layout>
+            }
+          />
+          <Route
+            path="/edit-hotel/:hotelId"
+            element={
+              <Layout>
+                <EditHotel />
+              </Layout>
+            }
+          />
+          <Route
+            path="/my-hotels"
+            element={
+              <Layout>
+                <MyHotels />
               </Layout>
             }
           />
@@ -67,22 +92,7 @@ const App = () => {
           </Layout>
         }
       />
-      <Route
-        path="/edit-hotel/:hotelId"
-        element={
-          <Layout>
-            <EditHotel />
-          </Layout>
-        }
-      />
-      <Route
-        path="/my-hotels"
-        element={
-          <Layout>
-            <MyHotels />
-          </Layout>
-        }
-      />
+
       <Route path="*" element={<Navigate to="/" />} />
     </Routes>
   );
