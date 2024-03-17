@@ -7,6 +7,7 @@ import EditHotel from "./pages/EditHotel";
 import Search from "./pages/Search";
 import Detail from "./pages/Detail";
 import Booking from "./pages/Booking";
+import MyBookings from "./pages/MyBookings";
 import { Routes, Route, Navigate } from "react-router-dom";
 import { useAppContext } from "./contexts/AppContext";
 
@@ -79,6 +80,14 @@ const App = () => {
             element={
               <Layout>
                 <MyHotels />
+              </Layout>
+            }
+          />
+          <Route
+            path="/my-bookings"
+            element={
+              <Layout>
+                <MyBookings />
               </Layout>
             }
           />
